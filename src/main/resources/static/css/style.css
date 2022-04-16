@@ -1,0 +1,86 @@
+@charset "utf-8";
+
+.calendar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border: 2px solid #222;
+}
+
+.calendar .date {
+    flex-basis: calc(100% / 7);
+    border-right: 1px solid #333;
+}
+
+calendar .date:nth-child(7n) {
+    border-right: width: 0;
+}
+
+.calendar .date-num {
+    display: block;
+    padding: 5px 10px;
+    background: #444;
+    color: #ccc;
+}
+
+.calendar .plans {
+    min-height: 8rem;
+    padding: 5px 10px;
+}
+
+/* マウスホバー時 */
+.calendar .current-month-date:hover {
+    background: #e6f9ef;
+    cursor: zoom-in;
+}
+
+.calendar .current-month-date:hover .date-num {
+    color: #fff;
+}
+
+
+/* 週末の色 */
+.calendar .current-month-date:nth-child(7n) .date-num {
+    background: #3e587e;
+}
+
+.calendar .current-month-date:nth-child(7n + 1) .date-num {
+    background: #7e3333;
+}
+
+/* 前月、翌月の日付 */
+.calendar .prev-month-date,
+.calendar .next-month-date {
+    background: #999;
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* ログインページ */
+/* https://getbootstrap.jp/docs/5.0/examples/sign-in/ */
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
