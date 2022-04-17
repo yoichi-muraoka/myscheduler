@@ -12,8 +12,8 @@
     border-right: 1px solid #333;
 }
 
-calendar .date:nth-child(7n) {
-    border-right: width: 0;
+.calendar .date:nth-child(7n) {
+    border-right-width: 0;
 }
 
 .calendar .date-num {
