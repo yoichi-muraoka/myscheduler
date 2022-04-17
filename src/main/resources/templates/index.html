@@ -53,38 +53,15 @@
         <div class="date prev-month-date"><span class="date-num">30</span></div>
         <div class="date prev-month-date"><span class="date-num">31</span></div>
 
-        <div class="date current-month-date">
-            <span class="date-num">1</span>
-            <div class="plans"></div>
-        </div>
-        <div class="date current-month-date">
-            <span class="date-num">2</span>
+        <!-- 当月 -->
+        <div th:each="sc : ${schedule}" class="date current-month-date">
+            <span class="date-num" th:text="${sc.key}"></span>
             <div class="plans">
-                <div class="plan">
-                    <span class="plan-time">15:00</span>
-                    <p>3時のおやつ</p>
-                </div>
-                <div class="plan">
-                    <span class="plan-time">15:00</span>
-                    <p>3時のおやつ</p>
-                </div>
-                <div class="plan">
-                    <span class="plan-time">15:00</span>
-                    <p>3時のおやつ</p>
+                <div th:if="${sc.value.size() > 0}" th:each="plan : ${sc.value}" class="plan">
+                    <span class="plan-time" th:text="${plan.startAt}"></span>
+                    <p th:text="${plan.title}"></p>
                 </div>
             </div>
-        </div>
-        <div class="date current-month-date">
-            <span class="date-num">3</span>
-            <div class="plans"></div>
-        </div>
-        <div class="date current-month-date">
-            <span class="date-num">4</span>
-            <div class="plans"></div>
-        </div>
-        <div class="date current-month-date">
-            <span class="date-num">5</span>
-            <div class="plans"></div>
         </div>
 
         <!-- 翌月 -->
