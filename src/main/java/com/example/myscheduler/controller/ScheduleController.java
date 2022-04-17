@@ -48,4 +48,10 @@ public class ScheduleController {
         return "daily";
     }
 
+    @GetMapping("/daily/delete")
+    public String deletePlan(@RequestParam String id) {
+        scheduleService.deletePlan(id);
+        return "redirect:/";
+    }
+
 }
