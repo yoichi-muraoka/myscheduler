@@ -38,9 +38,14 @@ public class ScheduleController {
         return "index";
     }
 
-    @GetMapping("/plans")
-    public String plans() {
-        return "plans";
+    @GetMapping("/daily")
+    public String dailyPlans(
+            @RequestParam String yearMonth,
+            @RequestParam String date,
+            Model model) {
+        // 当日のスケジュール
+        model.addAttribute("dailyPlans", scheduleService.getDaily(yearMonth, date));
+        return "daily";
     }
 
 }

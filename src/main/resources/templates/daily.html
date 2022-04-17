@@ -68,7 +68,8 @@
     </form>
 
     <h2 class="mt-5">登録済みの予定</h2>
-    <table class="table table-striped">
+    <p th:if="${dailyPlans.size() == 0}" class="h5">※ 予定は登録されていません</p>
+    <table th:if="${dailyPlans.size() >= 1}" class="table table-striped">
         <thead>
             <tr>
                 <th>予定</th>
@@ -77,33 +78,20 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="align-middle">
+            <tr th:each="plan : ${dailyPlans}" class="align-middle">
                 <td>
-                    <p class="h6">面接</p>
-                    <p>株式会社ABCの佐藤さんと面接<br>履歴書と職務経歴書をもっていく</p>
+                    <p class="h6" th:text="${plan.title}">面接</p>
+                    <p th:utext="${plan.description}"></p>
                 </td>
-                <td>16:00～17:00</td>
-                <td><a class="btn btn-danger" href="">削除</a></td>
-            </tr>
-            <tr class="align-middle">
                 <td>
-                    <p class="h6">面接</p>
-                    <p>株式会社ABCの佐藤さんと面接<br>履歴書と職務経歴書をもっていく</p>
+                    [[${plan.startAt}]]
+                    <span th:if="${plan.startAt != null || plan.endAt != null}">～</span>
+                    [[${plan.endAt}]]
                 </td>
-                <td>～17:00</td>
-                <td><a class="btn btn-danger" href="">削除</a></td>
-            </tr>
-            <tr class="align-middle">
-                <td>
-                    <p class="h6">面接</p>
-                    <p>株式会社ABCの佐藤さんと面接<br>履歴書と職務経歴書をもっていく</p>
-                </td>
-                <td></td>
-                <td><a class="btn btn-danger" href="">削除</a></td>
+                <td><a class="btn btn-danger" th:href="@{/deletePlan(id = ${plan.id})}">削除</a></td>
             </tr>
         </tbody>
     </table>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
