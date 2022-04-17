@@ -17,6 +17,25 @@ public class YearMonthUtil {
     }
 
     /**
+     * 当月を文字列で返す
+     * @return 当月。「2022-04」のような文字列形式
+     */
+    public static String getCurrentMonth() {
+        YearMonth ym = YearMonth.now();
+        return ym.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+    }
+
+    /**
+     * 前月を文字列で返す
+     * @param yearMonth 年月。「2022-04」のような文字列形式
+     * @return 前月。「2022-03」のような文字列形式
+     */
+    public static String getPrevMonth(String yearMonth) {
+        YearMonth ym = YearMonth.parse(yearMonth).minusMonths(1);
+        return ym.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+    }
+
+    /**
      * 翌月を文字列で返す
      * @param yearMonth 年月。「2022-04」のような文字列形式
      * @return 翌月。「2022-05」のような文字列形式
