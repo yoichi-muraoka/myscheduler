@@ -43,7 +43,7 @@
     </div>
 </nav>
 <div class="container mt-4">
-    <h1>2022年04月25日</h1>
+    <h1 class="mt-4" th:text="${currentMonth.replace('-', '年') + '月' + (date.length() == 1 ? '0' + date : date) + '日'}"></h1>
     <h2 class="mt-5">予定の登録</h2>
     <form class="mt-4" action="">
         <div class="row">
