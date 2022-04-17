@@ -29,15 +29,19 @@
 }
 
 /* マウスホバー時 */
+.calendar .current-month-date > a {
+    text-decoration: none;
+    color: inherit;
+    cursor: zoom-in;
+}
+
 .calendar .current-month-date:hover {
     background: #e6f9ef;
-    cursor: zoom-in;
 }
 
 .calendar .current-month-date:hover .date-num {
     color: #fff;
 }
-
 
 /* 週末の色 */
 .calendar .current-month-date:nth-child(7n) .date-num {

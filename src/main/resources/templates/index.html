@@ -64,13 +64,15 @@
 
         <!-- 当月 -->
         <div th:each="sc : ${schedule}" class="date current-month-date">
-            <span class="date-num" th:text="${sc.key}"></span>
-            <div class="plans">
-                <div th:if="${sc.value.size() > 0}" th:each="plan : ${sc.value}" class="plan">
-                    <span class="plan-time" th:text="${plan.startAt}"></span>
-                    <p th:text="${plan.title}"></p>
+            <a th:href="@{/daily(yearMonth = ${currentMonth}, date = ${sc.key})}">
+                <span class="date-num" th:text="${sc.key}"></span>
+                <div class="plans">
+                    <div th:if="${sc.value.size() > 0}" th:each="plan : ${sc.value}" class="plan">
+                        <span class="plan-time" th:text="${plan.startAt}"></span>
+                        <p th:text="${plan.title}"></p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <!-- 翌月 -->
