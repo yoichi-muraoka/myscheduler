@@ -37,4 +37,10 @@ public class TestController {
         return scheduleService.getMonthly(yearMonth);
     }
 
+    @GetMapping("/daily/{yearMonth}/{day}")
+    public List<Plan> getByDate(@PathVariable String yearMonth,
+                                @PathVariable String day) {
+        return scheduleService.getDaily(yearMonth, day);
+    }
+
 }

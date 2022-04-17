@@ -35,12 +35,28 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     /**
+     * 指定された日の予定を取得
+     * @param yearMonth　年月。「2022-04」のような文字列形式
+     * @param day 日
+     * @return １日分の予定
+     */
+    @Override
+    public List<Plan> getDaily(String yearMonth, String day) {
+        int userId = 1; //TODO セッションからユーザーIDを取得
+        // 年月と日を繋げて、yyyy-MM-ddの文字列形式に変換
+        String date = yearMonth + "-";
+        // 日が1桁(1字)の場合、頭に0を付ける
+        date += day.length() == 1 ? "0" + day : day;
+        return planMapper.selectWithPlannedDateAndUserId(date, userId);
+    }
+
+    /**
      * 指定された年月の予定をDBから取得する
      * @param yearMonth 年月。「2022-04」のような文字列形式
      * @return ひと月分の予定リスト
      */
     private List<Plan> getMonthlyPlan(String yearMonth) {
-        int userId = 1;
+        int userId = 1; //TODO セッションからユーザーIDを取得
         String firstDateOfTheMonth = yearMonth + "-01";
         String firstDateOfNextMonth = YearMonthUtil.getNextMonth(yearMonth) + "-01";
         return planMapper.selectWithPeriodAndUserId(firstDateOfTheMonth, firstDateOfNextMonth, userId);

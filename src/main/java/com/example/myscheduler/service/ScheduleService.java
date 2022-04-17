@@ -14,4 +14,12 @@ public interface ScheduleService {
      */
     Map<Integer, List<Plan>> getMonthly(String yearMonth);
 
+    /**
+     * 指定された日の予定を取得
+     * @param yearMonth　年月。「2022-04」のような文字列形式
+     * @param day 日
+     * @return １日分の予定
+     */
+    List<Plan> getDaily(String yearMonth, String day);
+
 }
