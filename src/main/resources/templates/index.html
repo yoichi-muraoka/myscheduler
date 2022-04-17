@@ -12,20 +12,20 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="">MyScheduler</a>
+        <a class="navbar-brand" th:href="@{/}">MyScheduler</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="">2022年04月</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/(yearMonth = ${currentMonth})}" th:text="${currentMonth.replace('-', '年') + '月'}"></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="?m=202203">前の月</a>
+                    <a class="nav-link" th:href="@{/(yearMonth = ${prevMonth})}">前の月</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="?m=202205">次の月</a>
+                    <a class="nav-link" th:href="@{/(yearMonth = ${nextMonth})}">次の月</a>
                 </li>
             </ul>
             <div class="d-flex">
@@ -44,55 +44,55 @@
 </nav>
 
 <div class="container">
-    <h1 class="mt-4">2022年04月25日</h1>
-    <div class="calendar mt-3">
+    <h1 class="mt-4" th:text="${currentMonth.replace('-', '年') + '月'}"></h1>
+    <div class="calendar my-3">
         <!-- 前月 -->
-        <div class="date prev-month-date"><span class="date-num">27</span></div>
-        <div class="date prev-month-date"><span class="date-num">28</span></div>
-        <div class="date prev-month-date"><span class="date-num">29</span></div>
-        <div class="date prev-month-date"><span class="date-num">30</span></div>
-        <div class="date prev-month-date"><span class="date-num">31</span></div>
+        <!--/*
+          当月の月初が日曜日(7)の場合、前月は出力しない
 
-        <div class="date current-month-date">
-            <span class="date-num">1</span>
-            <div class="plans"></div>
+          当月の月初が土曜日(6)の場合、6回繰り返す
+          当月の月初が金曜日(5)の場合、5回繰り返す
+          ...
+          当月の月初が月曜日(1)の場合、1回繰り返す
+
+          #numbers.sequence()の第三引数を-1にすることで、デクリメントさせる
+        */-->
+        <div th:unless="${daysOfWeeks[0] == 7}" th:each="d : ${#numbers.sequence(daysOfWeeks[0], 1, -1)}" class="date prev-month-date">
+            <!--/* 月末日とdの差分で表示させる日付を算出 */-->
+            <span class="date-num" th:text="${lastDateOfPrevMonth - d + 1}"></span>
         </div>
-        <div class="date current-month-date">
-            <span class="date-num">2</span>
-            <div class="plans">
-                <div class="plan">
-                    <span class="plan-time">15:00</span>
-                    <p>3時のおやつ</p>
+
+        <!-- 当月 -->
+        <div th:each="sc : ${schedule}" class="date current-month-date">
+            <a th:href="@{/daily(yearMonth = ${currentMonth}, date = ${sc.key})}">
+                <span class="date-num" th:text="${sc.key}"></span>
+                <div class="plans">
+                    <div th:if="${sc.value.size() > 0}" th:each="plan : ${sc.value}" class="plan">
+                        <span class="plan-time" th:text="${plan.startAt}"></span>
+                        <p th:text="${plan.title}"></p>
+                    </div>
                 </div>
-                <div class="plan">
-                    <span class="plan-time">15:00</span>
-                    <p>3時のおやつ</p>
-                </div>
-                <div class="plan">
-                    <span class="plan-time">15:00</span>
-                    <p>3時のおやつ</p>
-                </div>
-            </div>
-        </div>
-        <div class="date current-month-date">
-            <span class="date-num">3</span>
-            <div class="plans"></div>
-        </div>
-        <div class="date current-month-date">
-            <span class="date-num">4</span>
-            <div class="plans"></div>
-        </div>
-        <div class="date current-month-date">
-            <span class="date-num">5</span>
-            <div class="plans"></div>
+            </a>
         </div>
 
         <!-- 翌月 -->
-        <div class="date next-month-date"><span class="date-num">1</span></div>
-        <div class="date next-month-date"><span class="date-num">2</span></div>
-        <div class="date next-month-date"><span class="date-num">3</span></div>
-        <div class="date next-month-date"><span class="date-num">4</span></div>
-    </div>
+        <!--/*
+          当月の月末が日曜日(7)の場合、6回繰り返す
+
+          当月の月末が月曜日(1)の場合、5回繰り返す (6-1)
+          当月の月末が火曜日(2)の場合、4回繰り返す (6-2)
+          ...
+          当月の月末が金曜日(5)の場合、1回繰り返す (6-5)
+
+          当月の月末が土曜日(6)の場合、表示しない
+        */-->
+        <div th:if="${daysOfWeeks[1] == 7}" th:each="d : ${#numbers.sequence(1, 6)}" class="date next-month-date">
+           <span class="date-num" th:text="${d}"></span>
+        </div>
+        <div th:unless="${daysOfWeeks[1] == 6 || daysOfWeeks[1] == 7}" th:each="d : ${#numbers.sequence(1, 6 - daysOfWeeks[1])}" class="date next-month-date">
+            <span class="date-num" th:text="${d}"></span>
+        </div>
+    </div><!-- /.calendar -->
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
