@@ -27,6 +27,11 @@ public class TestController {
         return planMapper.selectWithPeriodAndUserId("2022-04-01", "2022-05-01", 1);
     }
 
+    @GetMapping("/dailyPlan/{date}")
+    public List<Plan> getByDate(@PathVariable String date) {
+        return planMapper.selectWithPlannedDateAndUserId(date, 1);
+    }
+
     @GetMapping("/monthly/{yearMonth}")
     public Map<Integer, List<Plan>> getMonthly(@PathVariable String yearMonth) {
         return scheduleService.getMonthly(yearMonth);

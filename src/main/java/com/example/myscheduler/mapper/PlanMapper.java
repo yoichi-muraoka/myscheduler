@@ -13,4 +13,7 @@ public interface PlanMapper {
                                          @Param("oneDayAfterEndDate") String oneDayAfterEndDate,
                                          @Param("userId") Integer userId);
 
+    List<Plan> selectWithPlannedDateAndUserId(@Param("plannedDate") String plannedDate,
+                                              @Param("userId") Integer userId);
+
 }
