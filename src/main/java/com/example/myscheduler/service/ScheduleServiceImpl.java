@@ -51,6 +51,16 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     /**
+     * 指定された予定を削除
+     * @param planId 削除する予定のID
+     */
+    @Override
+    public void deletePlan(String planId) {
+        int userId = 1; //TODO セッションからユーザーIDを取得
+        planMapper.deletePlan(Integer.parseInt(planId), userId);
+    }
+
+    /**
      * 指定された年月の予定をDBから取得する
      * @param yearMonth 年月。「2022-04」のような文字列形式
      * @return ひと月分の予定リスト

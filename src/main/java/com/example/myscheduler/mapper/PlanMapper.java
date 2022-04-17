@@ -16,4 +16,7 @@ public interface PlanMapper {
     List<Plan> selectWithPlannedDateAndUserId(@Param("plannedDate") String plannedDate,
                                               @Param("userId") Integer userId);
 
+    void deletePlan(@Param("planId") Integer planId,
+                    @Param("userId") Integer userId);
+
 }

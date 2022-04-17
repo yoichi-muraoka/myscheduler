@@ -22,4 +22,10 @@ public interface ScheduleService {
      */
     List<Plan> getDaily(String yearMonth, String day);
 
+    /**
+     * 指定された予定を削除
+     * @param planId 削除する予定のID
+     */
+    void deletePlan(String planId);
+
 }

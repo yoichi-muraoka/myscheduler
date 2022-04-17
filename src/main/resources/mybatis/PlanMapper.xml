@@ -20,4 +20,9 @@
         ORDER BY start_at, id
     </select>
 
+    <delete id="deletePlan">
+        DELETE FROM plans
+        WHERE id = #{planId} AND user_id =#{userId}
+    </delete>
+
 </mapper>
