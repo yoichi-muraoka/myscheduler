@@ -81,12 +81,13 @@
           当月の月末が火曜日(2)の場合、4回繰り返す (6-2)
           ...
           当月の月末が金曜日(5)の場合、1回繰り返す (6-5)
-          当月の月末が土曜日(6)の場合、0回繰り返す (6-6)
+
+          当月の月末が土曜日(6)の場合、表示しない
         */-->
-        <div th:if="${daysOfWeeks[1]} == 7" th:each="d : ${#numbers.sequence(1, 6)}" class="date next-month-date">
+        <div th:if="${daysOfWeeks[1] == 7}" th:each="d : ${#numbers.sequence(1, 6)}" class="date next-month-date">
            <span class="date-num" th:text="${d}"></span>
         </div>
-        <div th:unless="${daysOfWeeks[1]} == 7" th:each="d : ${#numbers.sequence(1, 6 - daysOfWeeks[1])}" class="date next-month-date">
+        <div th:unless="${daysOfWeeks[1] == 6 || daysOfWeeks[1] == 7}" th:each="d : ${#numbers.sequence(1, 6 - daysOfWeeks[1])}" class="date next-month-date">
             <span class="date-num" th:text="${d}"></span>
         </div>
     </div><!-- /.calendar -->
