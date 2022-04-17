@@ -45,13 +45,21 @@ public class ScheduleController {
             Model model) {
         // 当日のスケジュール
         model.addAttribute("dailyPlans", scheduleService.getDaily(yearMonth, date));
+        // 日付, 当月, 前月, 翌月(リンク等に使用)
+        model.addAttribute("date", date);
+        model.addAttribute("currentMonth", yearMonth);
+        model.addAttribute("prevMonth", YearMonthUtil.getPrevMonth(yearMonth));
+        model.addAttribute("nextMonth", YearMonthUtil.getNextMonth(yearMonth));
         return "daily";
     }
 
     @GetMapping("/daily/delete")
-    public String deletePlan(@RequestParam String id) {
+    public String deletePlan(
+            @RequestParam String id,
+            @RequestParam String yearMonth,
+            @RequestParam String date) {
         scheduleService.deletePlan(id);
-        return "redirect:/";
+        return "redirect:/daily?yearMonth=" + yearMonth + "&date=" + date;
     }
 
 }

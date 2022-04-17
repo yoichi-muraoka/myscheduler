@@ -88,7 +88,7 @@
                     <span th:if="${plan.startAt != null || plan.endAt != null}">～</span>
                     [[${plan.endAt}]]
                 </td>
-                <td><a class="btn btn-danger" th:href="@{/daily/delete(id = ${plan.id})}">削除</a></td>
+                <td><a class="btn btn-danger" th:href="@{/daily/delete(id = ${plan.id}, yearMonth = ${currentMonth}, date = ${date})}">削除</a></td>
             </tr>
         </tbody>
     </table>
