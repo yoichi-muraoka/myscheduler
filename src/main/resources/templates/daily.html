@@ -10,10 +10,12 @@
     <form class="mt-4" action="" method="post" th:object="${plan}">
         <div class="row">
             <div class="col-4">
+                <p th:errors="*{title}" class="validation-error"></p>
                 <label for="title" class="form-label">件名</label>
                 <input type="text" class="form-control" th:field="*{title}">
             </div>
             <div class="col-12 mt-4">
+                <p th:errors="*{description}" class="validation-error"></p>
                 <label for="description" class="form-label">説明</label>
                 <textarea class="form-control"  th:field="*{description}" rows="4"></textarea>
             </div>
@@ -24,6 +26,9 @@
             <div class="col-2 mt-4">
                 <label for="endAt" class="form-label">終了時刻</label>
                 <input type="time" class="form-control"  th:field="*{endAt}">
+            </div>
+            <div class="col-8 mt-4">
+                <p th:errors="*{endAt}" class="validation-error"></p>
             </div>
             <div class="col-12 mt-4">
                 <input class="btn btn-primary" type="submit" value="　登 録　">

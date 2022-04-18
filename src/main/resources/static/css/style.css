@@ -60,6 +60,11 @@
     cursor: not-allowed;
 }
 
+/* バリデーション */
+.validation-error {
+    color: #cf2020;
+}
+
 /* ログインページ */
 /* https://getbootstrap.jp/docs/5.0/examples/sign-in/ */
 .form-signin {
