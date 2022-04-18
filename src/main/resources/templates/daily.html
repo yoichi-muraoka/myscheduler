@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common::head}"></head>
+<body>
+<nav th:replace="~{common::navbar}"></nav>
+
+<div class="container mt-4">
+    <h1 class="mt-4" th:text="${currentMonth.replace('-', '年') + '月' + (date.length() == 1 ? '0' + date : date) + '日'}"></h1>
+    <h2 class="mt-5">予定の登録</h2>
+    <form class="mt-4" action="" method="post" th:object="${plan}">
+        <div class="row">
+            <div class="col-4">
+                <p th:errors="*{title}" class="validation-error"></p>
+                <label for="title" class="form-label">件名</label>
+                <input type="text" class="form-control" th:field="*{title}">
+            </div>
+            <div class="col-12 mt-4">
+                <p th:errors="*{description}" class="validation-error"></p>
+                <label for="description" class="form-label">説明</label>
+                <textarea class="form-control"  th:field="*{description}" rows="4"></textarea>
+            </div>
+            <div class="col-2 mt-4">
+                <label for="tartAt" class="form-label">開始時刻</label>
+                <input type="time" class="form-control"  th:field="*{startAt}">
+            </div>
+            <div class="col-2 mt-4">
+                <label for="endAt" class="form-label">終了時刻</label>
+                <input type="time" class="form-control"  th:field="*{endAt}">
+            </div>
+            <div class="col-8 mt-4">
+                <p th:errors="*{endAt}" class="validation-error"></p>
+            </div>
+            <div class="col-12 mt-4">
+                <input class="btn btn-primary" type="submit" value="　登 録　">
+            </div>
+        </div>
+    </form>
+
+    <h2 class="mt-5">登録済みの予定</h2>
+    <p th:if="${dailyPlans.size() == 0}" class="h5">※ 予定は登録されていません</p>
+    <table th:if="${dailyPlans.size() >= 1}" class="table table-striped">
+        <thead>
+            <tr>
+                <th>予定</th>
+                <th>時間</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="plan : ${dailyPlans}" class="align-middle">
+                <td>
+                    <p class="h6" th:text="${plan.title}">面接</p>
+                    <p th:utext="${plan.description}"></p>
+                </td>
+                <td>
+                    [[${plan.startAt}]]
+                    <span th:if="${plan.startAt != null || plan.endAt != null}">～</span>
+                    [[${plan.endAt}]]
+                </td>
+                <td><a class="btn btn-danger" th:href="@{/daily/delete(id = ${plan.id}, yearMonth = ${currentMonth}, date = ${date})}">削除</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
