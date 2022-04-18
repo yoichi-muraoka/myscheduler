@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.myscheduler.mapper.UserMapper">
+
+    <select id="selectByLoginId" parameterType="string" resultType="com.example.myscheduler.domain.User">
+        SELECT * FROM users
+        WHERE login_id = #{loginId}
+    </select>
+
+</mapper>

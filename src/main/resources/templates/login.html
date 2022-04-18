@@ -1,26 +1,20 @@
 <!doctype html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>MyScheduler</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
+<head th:replace="~{common::head}"></head>
 <body class="text-center">
 <main class="form-signin mt-5">
-    <form>
+    <form action="" method="post" th:object="${user}">
         <h1 class="h3 mb-3 fw-normal">MyScheduler</h1>
 
         <div class="form-floating">
-            <input type="email" class="form-control" id="floatingInput">
-            <label for="floatingInput">ログインID</label>
+            <input type="text" class="form-control" th:field="*{loginId}">
+            <label for="loginId">ログインID</label>
+            <p class="validation-error" th:errors="*{loginId}"></p>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword">
-            <label for="floatingPassword">パスワード</label>
+            <input type="password" class="form-control" th:field="*{loginPass}">
+            <label for="lgoinPass">パスワード</label>
+            <p class="validation-error" th:errors="*{loginPass}"></p>
         </div>
 
         <input class="w-100 btn btn-lg btn-primary mt-3" type="submit" value="ログイン">
