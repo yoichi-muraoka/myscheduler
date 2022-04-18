@@ -59,6 +59,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     public void addPlan(Plan plan) {
     	int userId = 1; //TODO セッションからユーザーIDを取得
     	plan.setUserId(userId);
+    	// 改行文字を<br>に変換
+    	String description = plan.getDescription().replaceAll("\n", "<br>");
+    	plan.setDescription(description);
     	planMapper.insert(plan);
     }
 

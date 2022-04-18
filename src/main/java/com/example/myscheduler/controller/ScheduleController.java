@@ -1,14 +1,17 @@
 package com.example.myscheduler.controller;
 
-import com.example.myscheduler.service.ScheduleService;
-import com.example.myscheduler.util.YearMonthUtil;
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.Year;
+import com.example.myscheduler.domain.Plan;
+import com.example.myscheduler.service.ScheduleService;
+import com.example.myscheduler.util.YearMonthUtil;
 
 @Controller
 public class ScheduleController {
@@ -43,6 +46,8 @@ public class ScheduleController {
             @RequestParam String yearMonth,
             @RequestParam String date,
             Model model) {
+    	// フォーム用
+    	model.addAttribute("plan", new Plan());
         // 当日のスケジュール
         model.addAttribute("dailyPlans", scheduleService.getDaily(yearMonth, date));
         // 日付, 当月, 前月, 翌月(リンク等に使用)
@@ -51,6 +56,25 @@ public class ScheduleController {
         model.addAttribute("prevMonth", YearMonthUtil.getPrevMonth(yearMonth));
         model.addAttribute("nextMonth", YearMonthUtil.getNextMonth(yearMonth));
         return "daily";
+    }
+    
+    @PostMapping("/daily")
+    public String addPlan(
+    		@RequestParam String yearMonth,
+            @RequestParam String date,
+            Plan plan,
+            Model model) {
+    	
+    	// 予定の日付をセット
+    	int[] ym = YearMonthUtil.getYearAndMonth(yearMonth);
+    	LocalDate plannedAt = LocalDate.of(ym[0], ym[1], Integer.parseInt(date));
+    	plan.setPlannedAt(plannedAt);
+    	
+    	// 予定を登録
+    	scheduleService.addPlan(plan);
+    	
+    	// 元のページへリダイレクト
+    	return "redirect:/daily?yearMonth=" + yearMonth + "&date=" + date;
     }
 
     @GetMapping("/daily/delete")
