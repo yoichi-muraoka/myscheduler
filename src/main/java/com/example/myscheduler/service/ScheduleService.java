@@ -1,9 +1,9 @@
 package com.example.myscheduler.service;
 
-import com.example.myscheduler.domain.Plan;
-
 import java.util.List;
 import java.util.Map;
+
+import com.example.myscheduler.domain.Plan;
 
 public interface ScheduleService {
 
@@ -21,6 +21,12 @@ public interface ScheduleService {
      * @return １日分の予定
      */
     List<Plan> getDaily(String yearMonth, String day);
+    
+    /**
+     * 予定を追加
+     * @param plan　予定の日付、タイトル、内容、開始～終了時間
+     */
+    void addPlan(Plan plan);
 
     /**
      * 指定された予定を削除

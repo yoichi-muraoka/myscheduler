@@ -1,15 +1,16 @@
 package com.example.myscheduler.service;
 
-import com.example.myscheduler.domain.Plan;
-import com.example.myscheduler.mapper.PlanMapper;
-import com.example.myscheduler.util.YearMonthUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.myscheduler.domain.Plan;
+import com.example.myscheduler.mapper.PlanMapper;
+import com.example.myscheduler.util.YearMonthUtil;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -48,6 +49,17 @@ public class ScheduleServiceImpl implements ScheduleService {
         // 日が1桁(1字)の場合、頭に0を付ける
         date += day.length() == 1 ? "0" + day : day;
         return planMapper.selectWithPlannedDateAndUserId(date, userId);
+    }
+    
+    /**
+     * 予定を追加
+     * @param plan　予定の日付、タイトル、内容、開始～終了時間
+     */
+    @Override
+    public void addPlan(Plan plan) {
+    	int userId = 1; //TODO セッションからユーザーIDを取得
+    	plan.setUserId(userId);
+    	planMapper.insert(plan);
     }
 
     /**
