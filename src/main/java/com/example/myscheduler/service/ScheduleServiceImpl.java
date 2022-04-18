@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.myscheduler.domain.Plan;
+import com.example.myscheduler.domain.User;
 import com.example.myscheduler.mapper.PlanMapper;
 import com.example.myscheduler.util.YearMonthUtil;
 
@@ -16,6 +19,9 @@ import com.example.myscheduler.util.YearMonthUtil;
 public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
+    private HttpSession session;
+	
+	@Autowired
     private PlanMapper planMapper;
 
     /**
@@ -43,12 +49,11 @@ public class ScheduleServiceImpl implements ScheduleService {
      */
     @Override
     public List<Plan> getDaily(String yearMonth, String day) {
-        int userId = 1; //TODO セッションからユーザーIDを取得
         // 年月と日を繋げて、yyyy-MM-ddの文字列形式に変換
         String date = yearMonth + "-";
         // 日が1桁(1字)の場合、頭に0を付ける
         date += day.length() == 1 ? "0" + day : day;
-        return planMapper.selectWithPlannedDateAndUserId(date, userId);
+        return planMapper.selectWithPlannedDateAndUserId(date, getUserId());
     }
     
     /**
@@ -57,8 +62,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      */
     @Override
     public void addPlan(Plan plan) {
-    	int userId = 1; //TODO セッションからユーザーIDを取得
-    	plan.setUserId(userId);
+    	plan.setUserId(getUserId());
     	// 改行文字を<br>に変換
     	String description = plan.getDescription().replaceAll("\n", "<br>");
     	plan.setDescription(description);
@@ -71,8 +75,7 @@ public class ScheduleServiceImpl implements ScheduleService {
      */
     @Override
     public void deletePlan(String planId) {
-        int userId = 1; //TODO セッションからユーザーIDを取得
-        planMapper.deletePlan(Integer.parseInt(planId), userId);
+        planMapper.deletePlan(Integer.parseInt(planId), getUserId());
     }
 
     /**
@@ -81,10 +84,9 @@ public class ScheduleServiceImpl implements ScheduleService {
      * @return ひと月分の予定リスト
      */
     private List<Plan> getMonthlyPlan(String yearMonth) {
-        int userId = 1; //TODO セッションからユーザーIDを取得
         String firstDateOfTheMonth = yearMonth + "-01";
         String firstDateOfNextMonth = YearMonthUtil.getNextMonth(yearMonth) + "-01";
-        return planMapper.selectWithPeriodAndUserId(firstDateOfTheMonth, firstDateOfNextMonth, userId);
+        return planMapper.selectWithPeriodAndUserId(firstDateOfTheMonth, firstDateOfNextMonth, getUserId());
     }
 
     /**
@@ -103,6 +105,11 @@ public class ScheduleServiceImpl implements ScheduleService {
             }
         }
         return dailyPlan;
+    }
+    
+    private Integer getUserId() {
+    	User user = (User) session.getAttribute("user");
+    	return user.getId();
     }
 
 }
