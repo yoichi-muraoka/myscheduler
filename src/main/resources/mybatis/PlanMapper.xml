@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.myscheduler.mapper.PlanMapper">
+
+    <select id="selectWithPeriodAndUserId" resultType="com.example.myscheduler.domain.Plan">
+        <![CDATA[
+        SELECT * FROM plans
+        WHERE
+            planned_at >= #{startDate} AND planned_at < #{oneDayAfterEndDate}
+            AND user_id = #{userId}
+        ORDER BY planned_at, start_at
+        ]]>
+    </select>
+
+    <select id="selectWithPlannedDateAndUserId" resultType="com.example.myscheduler.domain.Plan">
+        SELECT * FROM plans
+        WHERE
+            planned_at = #{plannedDate}
+            AND user_id = #{userId}
+        ORDER BY start_at, id
+    </select>
+
+    <insert id="insert" parameterType="com.example.myscheduler.domain.Plan">
+        INSERT INTO plans 
+            (user_id, planned_at, start_at, end_at, title, description) 
+        VALUES
+            (#{userId}, #{plannedAt}, #{startAt}, #{endAt}, #{title}, #{description})   
+    </insert>
+
+    <delete id="deletePlan">
+        DELETE FROM plans
+        WHERE id = #{planId} AND user_id =#{userId}
+    </delete>
+
+</mapper>
