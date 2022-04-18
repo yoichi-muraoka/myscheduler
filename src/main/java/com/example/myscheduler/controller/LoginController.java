@@ -1,5 +1,6 @@
 package com.example.myscheduler.controller;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,14 @@ public class LoginController {
 	private LoginService loginService;
 	
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login(
+    		HttpSession session,
+    		Model model) {
+    	// すでにログイン済みの場合
+    	if(session.getAttribute("user") != null) {
+    		return "redirect:/";
+    	}
+    	
     	model.addAttribute("user", new User());
         return "login";
     }
